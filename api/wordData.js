@@ -163,8 +163,8 @@ const exportedMethods = {
       .toArray();
     let randomNumber =
       Math.floor(Math.random() * (wordsList.length - min + 1)) + min;
-    console.log(randomNumber);
-    return wordsList[randomNumber % wordsList];
+
+    return wordsList[randomNumber % wordsList.length];
   },
 };
 
