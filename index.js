@@ -7,7 +7,7 @@ const leadboardRouter = require("./api/leaderboardroute");
 
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-
+console.log(process.env.MONGODB_URI);
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
