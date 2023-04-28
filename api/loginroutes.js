@@ -43,7 +43,7 @@ router.get("/games", async (req, res) => {
   }
 });
 
-router.post("/gamestatus", async (req, res) => {
+router.post("/game", async (req, res) => {
   if (!req.user || !req.user.id) {
     return res
       .status(401)
