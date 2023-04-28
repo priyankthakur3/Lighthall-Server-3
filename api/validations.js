@@ -13,6 +13,20 @@ const exportedMethods = {
     if (!ObjectId.isValid(id)) throw `Error: ${varName} is invalid object ID`;
     return id;
   },
+  checkStringArray(arr, varName) {
+    if (!arr || !Array.isArray(arr))
+      throw `You must provide an array of ${varName}`;
+
+    if (arr.length === 0)
+      throw new Error(`Expected ${varName} to be of length `);
+    for (let i in arr) {
+      if (typeof arr[i] !== "string" || arr[i].trim().length === 0) {
+        throw `One or more elements in ${varName} array is not a string or is an empty string`;
+      }
+      arr[i] = arr[i].trim();
+    }
+    return arr;
+  },
   checkString(strVal, varName) {
     if (!strVal) throw new Error(`Error: You must supply a ${varName}!`);
     if (typeof strVal !== "string")
@@ -56,7 +70,15 @@ const exportedMethods = {
 
     return varVal.trim();
   },
-  checkTaskStatus(taskStatus) {
+
+  checkisNumber(number) {
+    if (!number || typeof number !== "number" || isNaN(number))
+      throw new Error("Error: Expected number");
+    if (number < 1) throw new Error("Error: Expected number to be positive");
+
+    return number;
+  },
+  checkGameStatus(taskStatus) {
     if (
       !taskStatus ||
       typeof taskStatus !== "string" ||
@@ -64,7 +86,7 @@ const exportedMethods = {
     )
       throw new Error("Error: Expecteed Task Value");
     taskStatus = taskStatus.trim().toLowerCase();
-    const taskList = ["todo", "progress", "waitlist", "completed"];
+    const taskList = ["won", "lost"];
     if (!taskList.includes(taskStatus))
       throw new Error(
         `Expected: Task Status to be either of ${taskList.join(",")}`

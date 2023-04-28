@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const loginRoutes = require("./api/loginroutes");
+const wordRoutes = require("./api/wordRoutes");
+const leadboardRouter = require("./api/leaderboardroute");
 
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -12,7 +14,12 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", (req, res, next) => {
   try {
-    if (req.path == "/login" || req.path == "/register") {
+    if (
+      req.path === "/user/login" ||
+      req.path === "/user/register" ||
+      req.path === "/" ||
+      req.path === "/gameStatus"
+    ) {
       next();
     } else {
       /* decode jwt token if authorized*/
@@ -37,7 +44,8 @@ app.use("/api", (req, res, next) => {
   }
 });
 
-app.use("/api", loginRoutes);
-app.use("/api/tasks", taskRoutes);
+app.use("/api/user", loginRoutes);
+app.use("/api/word", wordRoutes);
+app.use("/api/gameStatus", leadboardRouter);
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => console.log(`Server is running in port ${PORT}`));

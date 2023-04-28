@@ -26,6 +26,54 @@ function checkUserAndGenerateToken(data, req, res) {
     }
   );
 }
+
+router.get("/games", async (req, res) => {
+  let userid;
+  try {
+    userid = validations.checkId(req.user.id, "User ID");
+  } catch (error) {
+    return res.status(403).json({ error: error.message });
+  }
+
+  try {
+    let userGameStatus = await userData.getUserGameStatus(userid);
+    return userGameStatus;
+  } catch (error) {
+    return res.status(500).json({ error: "Server Error" });
+  }
+});
+
+router.post("/gamestatus", async (req, res) => {
+  if (!req.user || !req.user.id) {
+    return res
+      .status(401)
+      .json({ errorMessage: "User unauthorized!", status: false });
+  }
+  let userid, gameStatus, timeTaken, wrongAttempts;
+  try {
+    userid = validations.checkId(req.user.id, "User ID");
+    gameStatus = validations.checkGameStatus(req.body.gameStatus);
+    timeTaken = validations.checkisNumber(req.body.timeTaken);
+    wrongAttempts = validations.checkisNumber(req.body.wrongAttempts);
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+
+  try {
+    let createGame = await userData.logGameStatus(
+      userid,
+      gameStatus,
+      timeTaken,
+      wrongAttempts
+    );
+    if (createGame) {
+      return res.json(createGame);
+    }
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+});
+
 router.post("/login", async (req, res) => {
   let username, password;
   try {
