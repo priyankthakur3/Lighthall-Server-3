@@ -154,13 +154,16 @@ const exportedMethods = {
 
   async getTopicWord(topic) {
     let wordsCollection = await words();
+    const min = 1;
     let randomNumber = Math.floor(Math.random() * 10);
     let wordsList = await wordsCollection
       .find({
         topic: { $regex: new RegExp(`^${topic}$`, "i") },
       })
       .toArray();
-    return wordsList[randomNumber % wordsList.length];
+    return wordsList[
+      Math.floor(Math.random() * (wordsList.length - min + 1)) + min
+    ];
   },
 };
 
