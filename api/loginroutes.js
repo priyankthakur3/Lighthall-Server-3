@@ -53,8 +53,8 @@ router.post("/game", async (req, res) => {
   try {
     userid = validations.checkId(req.user.id, "User ID");
     gameStatus = validations.checkGameStatus(req.body.gameStatus);
-    timeTaken = validations.checkisNumber(req.body.timeTaken);
-    wrongAttempts = validations.checkisNumber(req.body.wrongAttempts);
+    timeTaken = validations.checkisNumber(Number(req.body.timeTaken));
+    wrongAttempts = validations.checkisNumber(Number(req.body.wrongAttempts));
   } catch (error) {
     return res.status(400).json({ error: error.message });
   }

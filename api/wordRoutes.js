@@ -29,6 +29,7 @@ router.get("/getTopicWord", async (req, res) => {
   }
   try {
     let word = await wordData.getTopicWord(topic);
+    word.word = word.word.toLowerCase();
     return res.json({ word });
   } catch (e) {
     return res.status(500).json({ error: e.message });

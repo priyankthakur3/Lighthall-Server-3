@@ -21,11 +21,11 @@ const exportedMethods = {
       "Paleontology",
       "Meteorology",
       "Oceanography",
-      "Computer Science",
+      // "Computer Science",
       "Engineering",
-      "Materials Science",
-      "Environmental Science",
-      "Social Science",
+      // "Materials Science",
+      // "Environmental Science",
+      // "Social Science",
     ];
     let cities = [
       "New York",
@@ -36,10 +36,10 @@ const exportedMethods = {
       "Beijing",
       "Dubai",
       "Mumbai",
-      "Rio de Janeiro",
+      // "Rio de Janeiro",
       "Moscow",
       "Cairo",
-      "Los Angeles",
+      // "Los Angeles",
       "Berlin",
       "Madrid",
       "Rome",
@@ -70,40 +70,40 @@ const exportedMethods = {
       "Artichoke",
       "Pumpkin",
       "Asparagus",
-      "Green beans",
-      "Brussels sprouts",
+      // "Green beans",
+      // "Brussels sprouts",
       "Cucumber",
       "Beets",
       "Garlic",
     ];
     let initMovies = [
-      "The Godfather",
-      "Star Wars",
-      "The Shawshank Redemption",
-      "The Dark Knight",
-      "Forrest Gump",
+      // "The Godfather",
+      // "Star Wars",
+      // "The Shawshank Redemption",
+      // "The Dark Knight",
+      // "Forrest Gump",
       "Titanic",
-      "Jurassic Park",
-      "The Lion King",
-      "Pulp Fiction",
-      "The Matrix",
+      // "Jurassic Park",
+      // "The Lion King",
+      // "Pulp Fiction",
+      // "The Matrix",
       "Goodfellas",
-      "The Silence of the Lambs",
-      "Saving Private Ryan",
-      "Fight Club",
-      "The Lord of the Rings",
-      "The Avengers",
-      "The Terminator",
-      "Back to the Future",
+      // "The Silence of the Lambs",
+      // "Saving Private Ryan",
+      // "Fight Club",
+      // "The Lord of the Rings",
+      // "The Avengers",
+      // "The Terminator",
+      // "Back to the Future",
       "Jaws",
-      "E.T. the Extra-Terrestrial",
+      // "E.T. the Extra-Terrestrial",
       "Ghostbusters",
-      "Die Hard",
-      "Indiana Jones and the Raiders of the Lost Ark",
+      // "Die Hard",
+      // "Indiana Jones and the Raiders of the Lost Ark",
       "Rocky",
-      "The Exorcist",
+      // "The Exorcist",
       "Alien",
-      "Blade Runner",
+      // "Blade Runner",
     ];
 
     let insertDocuments = [];
@@ -155,15 +155,16 @@ const exportedMethods = {
   async getTopicWord(topic) {
     let wordsCollection = await words();
     const min = 1;
-    let randomNumber = Math.floor(Math.random() * 10);
+
     let wordsList = await wordsCollection
       .find({
         topic: { $regex: new RegExp(`^${topic}$`, "i") },
       })
       .toArray();
-    return wordsList[
-      Math.floor(Math.random() * (wordsList.length - min + 1)) + min
-    ];
+    let randomNumber =
+      Math.floor(Math.random() * (wordsList.length - min + 1)) + min;
+    console.log(randomNumber);
+    return wordsList[randomNumber % wordsList];
   },
 };
 
