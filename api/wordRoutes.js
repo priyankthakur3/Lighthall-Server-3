@@ -20,7 +20,7 @@ router.get("/init", async (req, res) => {
   }
 });
 
-router.get("/gettopicword", async (req, res) => {
+router.get("/getTopicWord", async (req, res) => {
   let topic;
   try {
     topic = isStringName(req.body.topic, "Topic Name");
@@ -38,7 +38,6 @@ router.get("/gettopicword", async (req, res) => {
 router.get("/gettopic", async (req, res) => {
   try {
     let topicList = await wordData.getTopics();
-    await wordData.getTopicWord("vegetables");
     return res.json({ totalTopics: topicList.length, topicList });
   } catch (e) {
     return res.status(500).json({ error: e.message });
