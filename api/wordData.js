@@ -138,9 +138,12 @@ const exportedMethods = {
   },
 
   async getRandomWord() {
+    const min = 1;
     let wordsCollection = await words();
-    let randomNumber = Math.floor(Math.random() * 10);
-    let wordsCount = await wordsCollection.count();
+    const wordsCount = await wordsCollection.count();
+
+    let randomNumber = Math.floor(Math.random() * (wordsCount - min + 1)) + min;
+
     let randomWord = await wordsCollection
       .find({})
       .skip(randomNumber % wordsCount)
