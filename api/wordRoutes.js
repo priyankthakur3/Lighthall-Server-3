@@ -1,7 +1,29 @@
 const express = require("express");
+const {
+  checkStringArray,
+  isStringName,
+  checkString,
+  checkId,
+} = require("./validations");
+
 const wordData = require("./wordData");
-const { checkStringArray, isStringName } = require("./validations");
 const router = express.Router();
+
+router.route("/:id").get(async (req, res) => {
+  let id;
+  try {
+    id = checkId(req.params.id);
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+
+  try {
+    let word = await wordData.getByID(id);
+    return res.json(word);
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+});
 
 router.get("/init", async (req, res) => {
   let words;
@@ -49,5 +71,21 @@ router.get("/getaword", async (req, res) => {
   let word = await wordData.getRandomWord();
   word.word = word.word.toLowerCase();
   res.json(word);
+});
+
+router.post("/shareword", async (req, res) => {
+  let word;
+  try {
+    word = checkString(req.body.word);
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+
+  try {
+    let createdWord = await wordData.pushWord(word);
+    if (createdWord) return res.json(createdWord);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
 });
 module.exports = router;

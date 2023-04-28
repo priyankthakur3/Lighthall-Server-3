@@ -137,6 +137,17 @@ const exportedMethods = {
     return uniqueTopics;
   },
 
+  async getByID(id) {
+    id = validations.checkId(id);
+    let wordsCollection = await words();
+
+    let word = await wordsCollection.findOne({ _id: new ObjectId(id) });
+    if (!word) throw new Error("No Word exists for ID");
+
+    word.word = word.word.toLowerCase();
+    return word;
+  },
+
   async getRandomWord() {
     const min = 1;
     let wordsCollection = await words();
@@ -150,6 +161,21 @@ const exportedMethods = {
       .limit(1)
       .toArray();
     return randomWord[0];
+  },
+
+  async pushWord(word) {
+    word = validations.checkString(word);
+    let wordsCollection = await words();
+    let wordsExists = await wordsCollection.findOne({ word });
+
+    if (wordsExists) return { id: wordsExists._id.toString() };
+    else {
+      let newWordDoc = { _id: new ObjectId(), word: word };
+      let newWordinfo = await wordsCollection.insertOne(newWordDoc);
+      if (!newWordinfo.acknowledged) throw new Error(`Error creating new word`);
+
+      return { id: newWordDoc._id.toString() };
+    }
   },
 
   async getTopicWord(topic) {
