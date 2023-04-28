@@ -23,7 +23,7 @@ router.get("/init", async (req, res) => {
 router.get("/getTopicWord", async (req, res) => {
   let topic;
   try {
-    topic = isStringName(req.body.topic, "Topic Name");
+    topic = isStringName(req.query.topic, "Topic Name");
   } catch (error) {
     return res.status(400).json({ error: error.message });
   }
