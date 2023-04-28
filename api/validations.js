@@ -72,9 +72,10 @@ const exportedMethods = {
   },
 
   checkisNumber(number) {
-    if (!number || typeof number !== "number" || isNaN(number))
+    console.log(typeof number !== "number", isNaN(number));
+    if (typeof number !== "number" || isNaN(number))
       throw new Error("Error: Expected number");
-    if (number < 1) throw new Error("Error: Expected number to be positive");
+    if (number < 0) throw new Error("Error: Expected number to be positive");
 
     return number;
   },

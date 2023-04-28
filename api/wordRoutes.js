@@ -47,6 +47,7 @@ router.get("/gettopic", async (req, res) => {
 
 router.get("/getaword", async (req, res) => {
   let word = await wordData.getRandomWord();
+  word.word = word.word.toLowerCase();
   res.json(word);
 });
 module.exports = router;
